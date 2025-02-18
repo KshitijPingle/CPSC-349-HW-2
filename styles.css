@@ -1,1 +1,43 @@
 /* TO-DO */
+
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.header {
+    font-size: 30px;
+    text-align: center;
+    color: white;
+    background-color: #273544;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    width: 100%;
+}
+
+.search-bar {
+    text-align: center;
+    background-color: #2c3f54;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.search-bar input {
+    color: #616161;
+    border-radius: 4px;
+}
+
+input [type=text] {
+    /* This is not working yet, figure it out later */
+    padding: 12px 20px;
+    box-sizing: border-box;
+}
+
+.search-bar select {
+    margin-left: 6px;
+    border-radius: 4px;
+}
+
+.flexbox {
+    display: flex;
+    background-color: #f2f2f2;
+}
