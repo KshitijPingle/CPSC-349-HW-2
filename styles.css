@@ -37,7 +37,11 @@ input [type=text] {
     border-radius: 4px;
 }
 
-.flexbox {
-    display: flex;
-    background-color: #f2f2f2;
+
+/* Grid-repeat-column: repeat(auto-fit) in css*/
+
+#movie_grid {
+    display: grid;
+    grid-gap: 7px;
+    grid-template-columns: repeat(auto-fit);
 }
