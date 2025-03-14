@@ -19,6 +19,7 @@ fetch(url, options)
   .then(json => {
     console.log(json)
     let currentPageNum = json["page"]
+    let maxPages = json["total_pages"]
     const movies = json["results"]
     console.log(movies)
     let numberOfMovies = movies.length;
@@ -41,7 +42,6 @@ fetch(url, options)
         let movieRating = movies[i]["vote_average"]
         let posterPath = movies[i]["poster_path"]
         let moviePosterUrl = "http://image.tmdb.org/t/p/w185" + posterPath
-        console.log(moviePosterUrl)
 
         // Now make each movie card by attaching every element required
         document.getElementById('movie_grid').innerHTML += `
@@ -51,6 +51,9 @@ fetch(url, options)
             <p>Release Date: ${releaseDate}</p>
             <p>Rating: ${movieRating}</p>
         </div>`
+
+        document.getElementById("page_controls_p").innerHTML = 
+        `Page ${currentPageNum} of ${maxPages}`
     }
 
   })
