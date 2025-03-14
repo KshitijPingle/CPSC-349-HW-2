@@ -2,6 +2,7 @@
 
 body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: #f2f2f2;
 }
 
 .header {
@@ -42,6 +43,27 @@ input [type=text] {
 
 #movie_grid {
     display: grid;
-    grid-gap: 7px;
-    grid-template-columns: repeat(auto-fit);
+    grid-gap: 12px;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+#movie_grid > div {
+    text-align: center;
+    background-color: #fefefe;
+    padding: 5px;
+    border: 2px;
+    width: 250px;
+    border-radius: 6px;
+}
+
+#movie_grid > p {
+    font-weight: normal;
+}
+
+.movie_card {
+    text-align: center;
+}
+
+.movie_card h1 {
+    font-size: 20px;
 }
