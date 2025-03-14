@@ -30,7 +30,6 @@ body {
 }
 
 input [type=text] {
-    /* This is not working yet, figure it out later */
     padding: 12px 20px;
     box-sizing: border-box;
 }
@@ -63,6 +62,16 @@ input [type=text] {
     text-decoration: none;
 }
 
+.movie_card {
+    text-align: center;
+}
+
+.movie_card img {
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+
 #page_controls {
     margin-top: 50px;
     margin-bottom: 50px;
@@ -77,6 +86,10 @@ input [type=text] {
     border: none;
     border-radius: 4px;
     padding: 10px 13px 10px 13px;
+}
+
+#page_controls > button:hover {
+    cursor: pointer;
 }
 
 #page_controls_p {

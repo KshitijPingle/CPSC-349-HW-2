@@ -5,7 +5,7 @@ let searchTerm = "";
 let pageNumber = 1;
 
 const loadTrendingPage = () => {
-    let url = 'https://api.themoviedb.org/3/trending/all/day?language=en-US';
+    let url = `https://api.themoviedb.org/3/trending/all/week?language=en-US&page=${pageNumber}`;
     let options = {
       method: 'GET',
       headers: {
@@ -30,12 +30,6 @@ const loadTrendingPage = () => {
         document.getElementById('movie_grid').innerHTML =  ``
     
         for (let i = 0; i < numberOfMovies; i++){
-            // Get the following for each movie
-                // Movie title - DONE
-                // Poster Image - DONE
-                // Release Date - DONE
-                // Rating - DONE
-    
             let movieTitle = movies[i]["title"]
             if (movieTitle == undefined) {
                 movieTitle = movies[i]["name"]
@@ -50,7 +44,7 @@ const loadTrendingPage = () => {
 
             // Now make each movie card by attaching every element required
             document.getElementById('movie_grid').innerHTML += `
-            <div>
+            <div class="movie_card">
                 <img src=${moviePosterUrl} alt="Movie Poster">
                 <h1>${movieTitle}</h1>
                 <p>Release Date: ${releaseDate}</p>
@@ -67,11 +61,11 @@ const loadTrendingPage = () => {
       .catch(err => console.error(err));
 };
 
-const handleSearch = (e) => {
-    searchTerm = e.target.value;
+const handleSearch = () => {
+    searchTerm = document.getElementById("search_bar").value
     console.log(searchTerm)
 
-    const url = 'https://api.themoviedb.org/3/search/movie?include_adult=true&language=en-US&page=1';
+    const url = `https://api.themoviedb.org/3/search/movie?include_adult=true&language=en-US&page=${pageNumber}`;
     const searchUrl =  `${url}&query=${searchTerm}"`
     const options = {
       method: 'GET',
@@ -81,7 +75,7 @@ const handleSearch = (e) => {
       }
     };
     
-    fetch(url, options)
+    fetch(searchUrl, options)
       .then(res => res.json())
       .then(json => {
         console.log(json)
@@ -96,12 +90,6 @@ const handleSearch = (e) => {
         document.getElementById('movie_grid').innerHTML =  ``
     
         for (let i = 0; i < numberOfMovies; i++){
-            // Get the following for each movie
-                // Movie title - DONE
-                // Poster Image - DONE
-                // Release Date - DONE
-                // Rating - DONE
-    
             let movieTitle = movies[i]["title"]
             if (movieTitle == undefined) {
                 movieTitle = movies[i]["name"]
@@ -116,7 +104,7 @@ const handleSearch = (e) => {
 
             // Now make each movie card by attaching every element required
             document.getElementById('movie_grid').innerHTML += `
-            <div>
+            <div class="movie_card">
                 <img src=${moviePosterUrl} alt="Movie Poster">
                 <h1>${movieTitle}</h1>
                 <p>Release Date: ${releaseDate}</p>
@@ -134,7 +122,33 @@ const handleSearch = (e) => {
 }
 
 
+const prevPage = () => {
+    if (pageNumber == 1) {
+        // Do nothing
+    }
+    else {
+        pageNumber = pageNumber - 1;
+        if (searchTerm == "") {
+            loadTrendingPage();
+        }
+        else {
+            handleSearch();
+        }
+    }
+}
+
+const nextPage = () => {
+    pageNumber += 1;
+    if (searchTerm == "") {
+        loadTrendingPage();
+    }
+    else {
+        handleSearch();
+    }
+}
+
 
 if (searchTerm == "") {
     loadTrendingPage();
 }
+

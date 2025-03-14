@@ -8,10 +8,9 @@
 </head>
 <body>
     <!-- ToDO -->
-    <script src="script.js"></script>
     <div class = "header">Movie Explorer</div>
     <div class = "search-bar">
-        <input type="text" placeholder="Search for a movie..." onchange= "handleSearch(e)">
+        <input type="text" placeholder="Search for a movie..." id="search_bar" onchange="handleSearch()"/>
         <select name="sort-by" id="sort-by">
             <option value="Sort-by">Sort By</option>
             <option value="release-date-asc">Release Date (Asc)</option>
@@ -22,9 +21,9 @@
     </div>
     <div id="movie_grid"></div>
     <div id="page_controls">
-        <button>Previous</button>
+        <button onclick="prevPage()">Previous</button>
         <p id = "page_controls_p"></p>
-        <button>Next</button>
+        <button onclick="nextPage()">Next</button>
     </div>
 </body>
 </html>
