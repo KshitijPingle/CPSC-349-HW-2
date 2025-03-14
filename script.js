@@ -2,8 +2,8 @@
 // const apiReadAccessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNTAwZmIxNGQzYTlmNmFhMTEwM2MzZGZjNjk4MzBhYyIsIm5iZiI6MTc0MTQ2Njg0NS4yNCwic3ViIjoiNjdjY2FjZGQ4MjMwYjI1NmY0ZjViODk4Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.1dko7ViElFh_YUnW8Z3R8Zh3A-1LwUzbneJEPApdgdI";
 
 
-const url = 'https://api.themoviedb.org/3/trending/all/day?language=en-US';
-const options = {
+let url = 'https://api.themoviedb.org/3/trending/all/day?language=en-US';
+let options = {
   method: 'GET',
   headers: {
     accept: 'application/json',
@@ -11,6 +11,9 @@ const options = {
   }
 };
 
+let searchTerm = "";
+
+// Load initial trending page
 fetch(url, options)
   .then(res => res.json())
   .then(json => {
@@ -19,10 +22,11 @@ fetch(url, options)
     const movies = json["results"]
     console.log(movies)
     let numberOfMovies = movies.length;
+
     for (let i = 0; i < numberOfMovies; i++){
         // Get the following for each movie
             // Movie title - DONE
-            // Poster Image
+            // Poster Image - DONE
             // Release Date - DONE
             // Rating - DONE
 
@@ -36,15 +40,13 @@ fetch(url, options)
         }
         let movieRating = movies[i]["vote_average"]
         let posterPath = movies[i]["poster_path"]
-        let moviePoster = "https://api.themoviedb.org/3" + posterPath
-        console.log(moviePoster)
-        let movieImg = document.createElement('img')
-        movieImg.src = moviePoster
+        let moviePosterUrl = "http://image.tmdb.org/t/p/w185" + posterPath
+        console.log(moviePosterUrl)
 
         // Now make each movie card by attaching every element required
         document.getElementById('movie_grid').innerHTML += `
         <div>
-            <img src=movieImg alt="Movie Poster">
+            <img src=${moviePosterUrl} alt="Movie Poster">
             <h1>${movieTitle}</h1>
             <p>Release Date: ${releaseDate}</p>
             <p>Rating: ${movieRating}</p>
@@ -55,7 +57,6 @@ fetch(url, options)
   .catch(err => console.error(err));
 
 
-
-
-
-// document.getElementById('movie_grid').innerHTML += `<p>${response.json()}</p>`
+const handleSearch = (e) => {
+    searchTerm = e.target.value;
+}
