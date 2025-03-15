@@ -18,12 +18,12 @@ const loadTrendingPage = () => {
     fetch(url, options)
       .then(res => res.json())
       .then(json => {
-        console.log(json)
+        // console.log(json)
         let currentPageNum = json["page"]
         pageNumber = currentPageNum;
         let maxPages = json["total_pages"]
         const movies = json["results"]
-        console.log(movies)
+        // console.log(movies)
         let numberOfMovies = movies.length;
 
         // Empty contents of grid
@@ -50,22 +50,20 @@ const loadTrendingPage = () => {
                 <p>Release Date: ${releaseDate}</p>
                 <p>Rating: ${movieRating}</p>
             </div>`
-    
         }
     
         // Update page number
         document.getElementById("page_controls_p").innerHTML = 
         `Page ${currentPageNum} of ${maxPages}`
-    
       })
       .catch(err => console.error(err));
 };
 
 const handleSearch = () => {
     searchTerm = document.getElementById("search_bar").value
-    console.log(searchTerm)
+    // console.log(searchTerm)
 
-    const url = `https://api.themoviedb.org/3/search/movie?include_adult=true&language=en-US&page=${pageNumber}`;
+    const url = `https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=${pageNumber}`;
     const searchUrl =  `${url}&query=${searchTerm}"`
     const options = {
       method: 'GET',
@@ -78,12 +76,12 @@ const handleSearch = () => {
     fetch(searchUrl, options)
       .then(res => res.json())
       .then(json => {
-        console.log(json)
+        // console.log(json)
         let currentPageNum = json["page"]
         pageNumber = currentPageNum;
         let maxPages = json["total_pages"]
         const movies = json["results"]
-        console.log(movies)
+        // console.log(movies)
         let numberOfMovies = movies.length;
 
         // Empty contents of grid
@@ -110,13 +108,11 @@ const handleSearch = () => {
                 <p>Release Date: ${releaseDate}</p>
                 <p>Rating: ${movieRating}</p>
             </div>`
-    
         }
     
         // Update page number
         document.getElementById("page_controls_p").innerHTML = 
         `Page ${currentPageNum} of ${maxPages}`
-    
       })
       .catch(err => console.error(err));
 }
@@ -128,7 +124,11 @@ const prevPage = () => {
     }
     else {
         pageNumber = pageNumber - 1;
-        if (searchTerm == "") {
+        if (document.getElementById("sort_by").value != "Sort-by") {
+            // searchTerm = document.getElementById("sort_by").value;
+            handleSorting();
+        }
+        else if (searchTerm == "") {
             loadTrendingPage();
         }
         else {
@@ -139,7 +139,11 @@ const prevPage = () => {
 
 const nextPage = () => {
     pageNumber += 1;
-    if (searchTerm == "") {
+    if (document.getElementById("sort_by").value != "Sort-by") {
+        // searchTerm = document.getElementById("sort_by").value;
+        handleSorting();
+    }
+    else if (searchTerm == "") {
         loadTrendingPage();
     }
     else {
@@ -148,7 +152,95 @@ const nextPage = () => {
 }
 
 
-if (searchTerm == "") {
-    loadTrendingPage();
+// if (document.getElementById(search_bar).value == "") {
+//     searchTerm = document.getElementById(search_bar).value;
+//     loadTrendingPage();
+// }   
+
+
+const handleSorting = () => {
+    const sort_by = document.getElementById("sort_by").value;
+    let url = "";
+    const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNTAwZmIxNGQzYTlmNmFhMTEwM2MzZGZjNjk4MzBhYyIsIm5iZiI6MTc0MTQ2Njg0NS4yNCwic3ViIjoiNjdjY2FjZGQ4MjMwYjI1NmY0ZjViODk4Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.1dko7ViElFh_YUnW8Z3R8Zh3A-1LwUzbneJEPApdgdI'
+        }
+    };
+    
+    switch (sort_by) {
+        case "Sort-by":
+            // Load normal trending page
+            url = `https://api.themoviedb.org/3/trending/all/week?language=en-US&page=${pageNumber}`;
+            break;
+
+        case "release-date-asc":
+            url =  `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pageNumber}&sort_by=primary_release_date.asc`            
+            break;
+
+        case "release-date-desc":
+            url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pageNumber}&sort_by=primary_release_date.desc`
+            break;
+
+        case "rating-asc":
+            url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pageNumber}&sort_by=vote_average.asc`  
+            break;
+
+        case "rating-desc":
+            url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${pageNumber}&sort_by=vote_average.desc`
+            break;
+
+        default:
+            // Load normal trending page
+            url = `https://api.themoviedb.org/3/trending/all/week?language=en-US&page=${pageNumber}`;
+            break;
+    }
+
+    fetch(url, options)
+    .then(res => res.json())
+    .then(json => {
+    //   console.log(json)
+      let currentPageNum = json["page"]
+      pageNumber = currentPageNum;
+      let maxPages = json["total_pages"]
+      const movies = json["results"]
+    //   console.log(movies)
+      let numberOfMovies = movies.length;
+
+      // Empty contents of grid
+      document.getElementById('movie_grid').innerHTML =  ``
+  
+      for (let i = 0; i < numberOfMovies; i++){
+          let movieTitle = movies[i]["title"]
+          if (movieTitle == undefined) {
+              movieTitle = movies[i]["name"]
+          }
+          let releaseDate = movies[i]["first_air_date"]
+          if (releaseDate == undefined) {
+              releaseDate = movies[i]["release_date"]
+          }
+          let movieRating = movies[i]["vote_average"]
+          let posterPath = movies[i]["poster_path"]
+          let moviePosterUrl = "http://image.tmdb.org/t/p/w185" + posterPath
+
+          // Now make each movie card by attaching every element required
+          document.getElementById('movie_grid').innerHTML += `
+          <div class="movie_card">
+              <img src=${moviePosterUrl} alt="Movie Poster">
+              <h1>${movieTitle}</h1>
+              <p>Release Date: ${releaseDate}</p>
+              <p>Rating: ${movieRating}</p>
+          </div>`
+      }
+  
+      // Update page number
+      document.getElementById("page_controls_p").innerHTML = 
+      `Page ${currentPageNum} of ${maxPages}`
+    })
+    .catch(err => console.error(err));
 }
 
+
+// When page initially loads up, call trending page
+loadTrendingPage();
