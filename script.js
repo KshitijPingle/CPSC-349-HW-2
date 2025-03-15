@@ -1,5 +1,9 @@
-// const apiKey = "d500fb14d3a9f6aa1103c3dfc69830ac";
-// const apiReadAccessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkNTAwZmIxNGQzYTlmNmFhMTEwM2MzZGZjNjk4MzBhYyIsIm5iZiI6MTc0MTQ2Njg0NS4yNCwic3ViIjoiNjdjY2FjZGQ4MjMwYjI1NmY0ZjViODk4Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.1dko7ViElFh_YUnW8Z3R8Zh3A-1LwUzbneJEPApdgdI";
+// Kshitij Pingle
+// CPSC 349
+// HW 2
+// 14/3/2025
+// Friday
+
 
 let searchTerm = "";
 let pageNumber = 1;
@@ -18,12 +22,10 @@ const loadTrendingPage = () => {
     fetch(url, options)
       .then(res => res.json())
       .then(json => {
-        // console.log(json)
         let currentPageNum = json["page"]
         pageNumber = currentPageNum;
         let maxPages = json["total_pages"]
         const movies = json["results"]
-        // console.log(movies)
         let numberOfMovies = movies.length;
 
         // Empty contents of grid
@@ -61,7 +63,6 @@ const loadTrendingPage = () => {
 
 const handleSearch = () => {
     searchTerm = document.getElementById("search_bar").value
-    // console.log(searchTerm)
 
     const url = `https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=${pageNumber}`;
     const searchUrl =  `${url}&query=${searchTerm}"`
@@ -76,12 +77,10 @@ const handleSearch = () => {
     fetch(searchUrl, options)
       .then(res => res.json())
       .then(json => {
-        // console.log(json)
         let currentPageNum = json["page"]
         pageNumber = currentPageNum;
         let maxPages = json["total_pages"]
         const movies = json["results"]
-        // console.log(movies)
         let numberOfMovies = movies.length;
 
         // Empty contents of grid
@@ -152,12 +151,6 @@ const nextPage = () => {
 }
 
 
-// if (document.getElementById(search_bar).value == "") {
-//     searchTerm = document.getElementById(search_bar).value;
-//     loadTrendingPage();
-// }   
-
-
 const handleSorting = () => {
     const sort_by = document.getElementById("sort_by").value;
     let url = "";
@@ -200,12 +193,10 @@ const handleSorting = () => {
     fetch(url, options)
     .then(res => res.json())
     .then(json => {
-    //   console.log(json)
       let currentPageNum = json["page"]
       pageNumber = currentPageNum;
       let maxPages = json["total_pages"]
       const movies = json["results"]
-    //   console.log(movies)
       let numberOfMovies = movies.length;
 
       // Empty contents of grid
